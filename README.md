@@ -83,9 +83,9 @@ When clicking on one of the `Hotels`, `Cities` or `Countries` links, the applica
 ### Write-up
 
 <!-- Write-up/conclusion section -->
-## Welcome to my solution!
+### Welcome to my solution!
 
-# A few things to note before you get started:
+### A few things to note before you get started:
 I have made two branches - ```main``` and ```typesense``` <br>
 The main branch uses a mongodb aggregation + indexing + redis caching system to make searches more performant <br>
 The typesense branch uses typesense which is great for partial or full text searches, at scale it is more performant than my initial approach <br> <br>
@@ -95,25 +95,24 @@ I did this in case you are testing for mongodb aggregation or query optimisation
 Please switch to which ever branch is more suited to your interests or assessments, thank you. <br>
 Also, I have shared some secrets for my Typesense cloud instance via email to Alana in case you wish to test out the Typesense branch
 
-# More things to note:
+### More things to note:
 1. Run unit + integration tests on the ```api``` package with ```npm run test```
 2. Run unit + integration tests on the ```client``` package with ```npm run test```
 3. Run the E2E test on the ```client``` package with ```npm run test:e2e```, make sure to first run ```npm run test:e2e:install``` if you don't have playwright/chromium installed
 
-# Things I would have loved to do with more time:
+### Things I would have loved to do with more time:
 1. Deploy everything to AWS and load up the DB with like 100k+ records or so in order to assess and fix more performance bottlenecks
 2. Finish up the last minute tests on the client package in the Typesense branch.
 3. Setup a github action to run my E2E tests on push and then auto deploy to AWS.
 4. Do a much better job on the accessibility of the search box component.
 
-# I no longer have a lot of observations because i took care of the ones I could find eg:
+### I no longer have a lot of observations because i took care of the ones I could find eg:
 1. Caching on both client and server-side
 2. Query optimisation (aggregations + indexing) for the search
 3. Loading state + Error states
 4. 404 page and redirecting users when they use a wrong id for hotel, city or country pages
 5. Lots of testing - 100% coverage everywhere (except that last test in the typesense branch 😔)
-
-<br><br>
+<br>
 
 Thank you!
 
