@@ -2,13 +2,18 @@
   "name": "api",
   "type": "module",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20.16.0"
+  },
+  "engineStrict": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test jest --watchAll --verbose --coverage --runInBand --testTimeout=10000",
     "dev": "tsx watch --clear-screen=false .",
     "dev:api": "npm run dev",
     "dev:no-watch": "tsx .",
     "build": "tsc",
-    "build:api": "npm run build"
+    "build:api": "npm run build",
+    "seed": "tsx scripts/startAndSeedMemoryDB.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,12 +22,22 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongodb": "^6.7.0"
+    "express-async-errors": "^3.1.1",
+    "ioredis": "^5.4.1",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.5.2",
+    "morgan": "^1.10.0",
+    "winston": "^3.3.3",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
     "mongodb-memory-server": "^9.4.0",
+    "supertest": "^7.0.0",
     "tsx": "^4.16.2",
     "typescript": "^5.4.5"
   }
