@@ -1,62 +1,39 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import { useDelayedLoad } from "@/hooks/useDelayedLoad";
-import { ISuccessResponse, IErrorResponse } from "interfaces";
+import {
+  IErrorResponse,
+  ISearchData,
+  ICity,
+  ICountry,
+  IHotel,
+} from "interfaces";
 import { Link } from "react-router-dom";
-import { API_BASE_URL } from "@/utils/helpers";
+import { searchAllCollections } from "@/utils/helpers";
 
-interface IHotel {
-  _id: string;
-  hotel_name: string;
-  country: string;
-}
-
-interface ICountry {
-  _id: string;
-  country: string;
-}
-
-interface ICity {
-  _id: string;
-  name: string;
-}
-
-interface IData {
-  hotels: IHotel[];
-  countries: ICountry[];
-  cities: ICity[];
-}
-
-const INPUT_DELAY = 500;
+const INPUT_DELAY = 300;
 
 export function SearchBox() {
   const [input, setInput] = useState("");
   const debouncedInput = useDebounce(input, INPUT_DELAY);
 
-  const [dataToDisplay, setDataToDisplay] = useState<IData | null>(null);
+  const [dataToDisplay, setDataToDisplay] = useState<ISearchData | null>(null);
 
   const { data, isLoading, isFetching, fetchStatus, error } = useQuery<
-    IData | null,
+    ISearchData | null,
     AxiosError<IErrorResponse>
   >({
     queryKey: ["search", debouncedInput],
-    queryFn: () => loadData(debouncedInput),
+    queryFn: () => searchAllCollections(debouncedInput),
     enabled: !!debouncedInput,
     initialData: null,
   });
 
   const isLoadingData = isLoading || isFetching;
 
-  const shouldShowLoader = useDelayedLoad(isLoadingData);
-
-  const loadData = async (value: string) => {
-    const response = await axios.get<ISuccessResponse<IData>>(
-      `${API_BASE_URL}/search/${value}`
-    );
-    return response.data.data;
-  };
+  const shouldShowLoader = useDelayedLoad(isLoadingData, 100);
 
   useEffect(() => {
     if (data) return setDataToDisplay(data);
@@ -64,10 +41,12 @@ export function SearchBox() {
     if (error && !isLoadingData) setDataToDisplay(null);
   }, [data, error, isLoadingData]);
 
+  console.log(data);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInput(value);
-    // if (value === "") setDataToDisplay(null);
+    if (value === "") setDataToDisplay(null);
   };
 
   const resetInput = () => {
