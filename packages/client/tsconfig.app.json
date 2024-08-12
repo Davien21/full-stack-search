@@ -34,7 +34,7 @@
     "vitest.setup.ts",
     "interfaces.ts",
     "playwright.config.ts",
-    "utils",
+    "utils/*",
     "tests"
   ],
   "exclude": ["node_modules", "dist", "coverage"]

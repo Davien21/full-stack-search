@@ -3,6 +3,7 @@ import validateById from "@/middlewares/validateById";
 import { NotFoundError } from "@/config/errors";
 import cityModel from "@/models/cities";
 import { successResponse } from "@/utils/response";
+import typesenseClient from "@/config/typesense";
 
 const router = express.Router();
 
@@ -22,6 +23,13 @@ router.get(
 
 router.post("/cities", async (req: Request, res: Response) => {
   const city = await cityModel.create(req.body);
+
+  await typesenseClient.collections("cities").documents().create({
+    _id: city._id,
+    name: city.name,
+    id: city._id,
+  });
+
   res.send(successResponse("City was created successfully", city));
 });
 
@@ -32,6 +40,8 @@ router.delete(
     const id = req.params.id;
     const city = await cityModel.findByIdAndDelete(id);
     if (!city) throw new NotFoundError("City not found");
+
+    await typesenseClient.collections("cities").documents(id).delete();
 
     res.send(successResponse("City was deleted successfully"));
   }
