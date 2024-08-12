@@ -67,7 +67,7 @@ export function SearchBox() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInput(value);
-    // if (value === "") setDataToDisplay(null);
+    if (value === "") setDataToDisplay(null);
   };
 
   const resetInput = () => {

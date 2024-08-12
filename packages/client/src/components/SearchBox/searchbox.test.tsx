@@ -98,6 +98,47 @@ describe("SearchBox Component", () => {
     );
   });
 
+  it("should hide the results if input is empty", async () => {
+    mockedAxios.get.mockResolvedValueOnce({
+      data: { data: { hotels: [], countries: [], cities: [] } },
+    });
+
+    const query = "uni";
+    renderSearchBox();
+
+    const input = screen.getByRole("textbox", {
+      name: /Search for accommodation/i,
+    });
+
+    // Simulate typing to trigger data fetching
+    await userEvent.type(input, query);
+
+    // Check that the search results are displayed
+    await screen.findByRole("heading", { name: /hotels/i });
+    await screen.findByRole("heading", { name: /countries/i });
+    await screen.findByRole("heading", { name: /cities/i });
+
+    // Clear the input field
+    await userEvent.clear(input);
+
+    // Check that the search results are hidden
+    expect(
+      screen.queryByRole("heading", {
+        name: /hotels/i,
+      })
+    ).toBeNull();
+    expect(
+      screen.queryByRole("heading", {
+        name: /countries/i,
+      })
+    ).toBeNull();
+    expect(
+      screen.queryByRole("heading", {
+        name: /cities/i,
+      })
+    ).toBeNull();
+  });
+
   it("should display specific error message returned", async () => {
     const query = "bad input or something";
     const message = "Oops something went to shit!";
