@@ -11,13 +11,13 @@ router.get(
   validateById("Invalid country id"),
   async (req: Request, res: Response) => {
     const id = req.params.id;
-    const city = await countryModel.findById(id);
-    if (!city) throw new NotFoundError("Country not found");
+    const country = await countryModel.findById(id);
+    if (!country) throw new NotFoundError("Country not found");
 
-    res.send(successResponse("Country was fetched successfully", city));
+    res.send(successResponse("Country was fetched successfully", country));
   }
 );
-
+ 
 const countriesRouter = router;
 
 export default countriesRouter;
