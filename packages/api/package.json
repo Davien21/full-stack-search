@@ -13,7 +13,8 @@
     "dev:no-watch": "tsx .",
     "build": "tsc",
     "build:api": "npm run build",
-    "seed": "tsx scripts/startAndSeedMemoryDB.ts"
+    "seed": "tsx scripts/startAndSeedMemoryDB.ts",
+    "seed:typesense": "tsx scripts/seedTypesense.ts"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "mongodb": "^6.7.0",
     "mongoose": "^8.5.2",
     "morgan": "^1.10.0",
+    "typesense": "^1.8.2",
     "winston": "^3.3.3",
     "zod": "^3.23.8"
   },

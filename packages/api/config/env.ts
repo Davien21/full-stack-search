@@ -5,12 +5,24 @@ dotenv.config();
 const schema = z.object({
   APP_NAME: z.string(),
   NODE_ENV: z.enum(["production", "development", "test"] as const),
-  PORT: z.number(),
+  PORT: z.union([z.string(), z.number()]).transform((val) => {
+    return typeof val === "number" ? val : parseInt(val, 10);
+  }),
   DATABASE_URL: z.string().includes("mongodb"),
   REDIS_HOST: z.string(),
-  REDIS_PORT: z.number(),
+  REDIS_PORT: z.union([z.string(), z.number()]).transform((val) => {
+    return typeof val === "number" ? val : parseInt(val, 10);
+  }),
   REDIS_PASSWORD: z.string(),
+  TYPESENSE_HOST: z.string(),
+  TYPESENSE_PORT: z.union([z.string(), z.number()]).transform((val) => {
+    return typeof val === "number" ? val : parseInt(val, 10);
+  }),
+  TYPESENSE_PROTOCOL: z.enum(["http", "https"] as const),
+  TYPESENSE_ADMIN_API_KEY: z.string(),
 });
+
+export default schema;
 
 declare global {
   namespace NodeJS {
@@ -32,6 +44,10 @@ const common = {
   REDIS_HOST: getValue("REDIS_HOST", "localhost"),
   REDIS_PORT: getValue("REDIS_PORT", 6379),
   REDIS_PASSWORD: getValue("REDIS_PASSWORD", ""),
+  TYPESENSE_PORT: getValue("TYPESENSE_PORT", 8108),
+  TYPESENSE_HOST: getValue("TYPESENSE_HOST", "localhost"),
+  TYPESENSE_PROTOCOL: getValue("TYPESENSE_PROTOCOL", "http"),
+  TYPESENSE_ADMIN_API_KEY: getValue("TYPESENSE_ADMIN_API_KEY", "xyz"),
 };
 
 const development = {
