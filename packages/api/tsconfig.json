@@ -6,8 +6,18 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
+    "paths": {
+      "@/": ["index"],
+      "@/config/*": ["config/*"],
+      "@/seeds/*": ["seeds/*"],
+      "@/models/*": ["models/*"],
+      "@/scripts/*": ["scripts/*"],
+      "@/utils/*": ["utils/*"],
+      "@/middlewares/*": ["middlewares/*"],
+      "@/routes/*": ["routes/*"],
+    },
+    // "skipLibCheck": true,
     "baseUrl": ".",
-    "outDir": "./dist",
+    "outDir": "./dist"
   }
 }
