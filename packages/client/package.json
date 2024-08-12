@@ -3,32 +3,48 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.16.0"
+  },
+  "engineStrict": true,
   "scripts": {
     "start": "vite",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest --coverage",
+    "test:e2e": "playwright test --ui",
+    "pretest:e2e:run": "npm run build",
+    "test:e2e:install": "npx playwright install --with-deps chromium"
   },
   "dependencies": {
     "@codesandbox/utils": "^1.0.2",
+    "@tanstack/react-query": "^5.51.21",
+    "axios": "^1.7.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@playwright/test": "^1.46.0",
     "@testing-library/dom": "^10.3.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^22.2.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "@vitest/coverage-v8": "^2.0.5",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "jsdom": "^24.1.0",
+    "playwright": "^1.46.0",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
     "vitest": "^2.0.1"
