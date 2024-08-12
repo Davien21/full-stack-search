@@ -1,10 +1,18 @@
-import { expect, test } from 'vitest'
-import { render, screen } from '@testing-library/react'
+/**
+ * @vitest-environment jsdom
+ */
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import App from "./app";
 
-import App from './app';
+describe("App", () => {
+  it("should render the Search box", () => {
+    render(<App />);
 
-test('renders search input', () => {
-  render(<App />);
-  const input = screen.getByPlaceholderText('Search accommodation...');
-  expect(input).toBeInTheDocument();
+    const searchbox = screen.getByRole("textbox", {
+      name: /Search for accommodation/i,
+    });
+
+    expect(searchbox).toBeInTheDocument();
+  });
 });
