@@ -6,6 +6,12 @@ import { cities } from "@/seeds/cities";
 import { appRouter } from "@/config/routing";
 import { env } from "@/config/env";
 
+jest.mock("@/config/typesense", () => ({
+  collections: jest.fn().mockReturnThis(),
+  documents: jest.fn().mockReturnThis(),
+  create: jest.fn(),
+}));
+
 describe("/cities", () => {
   let app = appRouter.listen(env.PORT);
 

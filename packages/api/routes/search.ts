@@ -19,6 +19,8 @@ type ISearchResult = {
   countries: { _id: string; country: string; collection: string }[];
 };
 
+// Note this route is no longer used for our searches, but it's still here for reference, the search route is now pointing to typesense server from the frontend
+
 router.get(
   "/search/:term",
   searchCache,
