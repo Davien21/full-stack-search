@@ -1,38 +1,29 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from 'cors';
-import { MongoClient } from "mongodb";
+import "express-async-errors";
 
-dotenv.config();
+import logger from "@/config/logger";
+import { openDBConnection } from "@/config/db";
+import { parseEnv, env } from "@/config/env";
+import redisClient from "@/config/redis";
+import { appRouter } from "@/config/routing";
 
-if (process.env.NODE_ENV !== 'production' && !process.env.DATABASE_URL) {
-  await import('./db/startAndSeedMemoryDB');
-}
+parseEnv();
 
-const PORT = process.env.PORT || 3001;
-if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL is not set');
-const DATABASE_URL = process.env.DATABASE_URL;
+const PORT = env.PORT;
 
-const app = express();
+await openDBConnection();
 
-app.use(cors())
-app.use(express.json());
+redisClient.on("connect", () => {
+  logger.info("Redis connection was successful");
+});
 
-app.get('/hotels', async (req, res) => {
-  const mongoClient = new MongoClient(DATABASE_URL);
-  console.log('Connecting to MongoDB...');
+redisClient.on("error", (error) => {
+  logger.error(`Redis connection error: ${error.message}`);
+});
 
-  try {
-    await mongoClient.connect();
-    console.log('Successfully connected to MongoDB!');
-    const db = mongoClient.db()
-    const collection = db.collection('hotels');
-    res.send(await collection.find().toArray())
-  } finally {
-    await mongoClient.close();
-  }
-})
+redisClient.on("close", () => {
+  logger.info("Redis connection was closed");
+});
 
-app.listen(PORT, () => {
-  console.log(`API Server Started at ${PORT}`)
-})
+appRouter.listen(PORT, () => {
+  logger.info(`API Server Started at ${PORT} in ${env.NODE_ENV} mode`);
+});
